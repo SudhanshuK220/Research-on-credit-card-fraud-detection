@@ -24,7 +24,7 @@ def main():
     from train_DecisionTree import train_decision_tree
     from train_ensemble_models import train_random_forest, train_xgboost
 
-    X_train, X_test, y_train, y_test = preprocess_data(test_size=0.30) 
+    X_train, X_test, y_train, y_test = preprocess_data(test_size=0.20) 
 
     if X_train is not None:
         train_svm(X_train, y_train, X_test, y_test)

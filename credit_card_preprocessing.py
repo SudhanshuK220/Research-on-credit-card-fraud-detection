@@ -9,7 +9,7 @@ from sklearn.metrics import (classification_report, confusion_matrix,
 import os
 import json
 
-def preprocess_data(test_size=0.30):
+def preprocess_data(test_size=0.20):
     
     file_path = 'creditcard.csv'
 
@@ -106,6 +106,10 @@ def evaluate_model(model_name, y_true, y_pred, roc_auc=None, y_scores=None):
         results["optimal_threshold"] = float(optimal_threshold)
         results["optimal_f1"] = float(optimal_f1)
         results["expected_cost"] = expected_cost
+        
+        results["pr_curve_precisions"] = precisions.tolist()
+        results["pr_curve_recalls"] = recalls.tolist()
+        results["pr_curve_thresholds"] = thresholds.tolist()
 
     file_name = "model_performance_results.json"
 
