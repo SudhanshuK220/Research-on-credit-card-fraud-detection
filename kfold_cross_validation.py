@@ -35,9 +35,9 @@ def load_data():
 def get_models():
     return {
         "Support Vector Machine": CalibratedClassifierCV(
-            LinearSVC(random_state=42, dual=False, max_iter=1500), cv=3),
-        "Decision Tree":          DecisionTreeClassifier(random_state=42, max_leaf_nodes=1500),
-        "K-Nearest Neighbors":    KNeighborsClassifier(n_neighbors=3, n_jobs=-1),
+            LinearSVC(random_state=42,dual=False,max_iter=1500,class_weight='balanced'), cv=3),
+        "Decision Tree":          DecisionTreeClassifier(random_state=42,max_leaf_nodes=1500,class_weight='balanced'),
+        "K-Nearest Neighbors":    KNeighborsClassifier(n_neighbors=3,weights='distance',n_jobs=-1),
         "Random Forest":          RandomForestClassifier(n_estimators=100, max_depth=20,
                                                          random_state=42, n_jobs=-1,
                                                          class_weight='balanced'),
@@ -135,54 +135,66 @@ def run_statistical_tests(all_scores, metric='f1'):
     """
     Compares every pair of models using the Wilcoxon signed-rank test.
     p < 0.05 means the difference is statistically significant.
+ 
+    Called separately for 'f1' and 'mcc' so both are recorded.
+    MCC is the primary metric for imbalanced-data papers.
     """
     print(f"\n{'='*60}")
-    print(f"  WILCOXON SIGNED-RANK TEST  (metric: {metric.upper()})")
-    print(f"  p < 0.05 → statistically significant difference")
+    print(f" WILCOXON SIGNED-RANK TEST (metric: {metric.upper()})")
+    print(f" p < 0.05 → statistically significant difference")
     print(f"{'='*60}")
-
+ 
     model_names = list(all_scores.keys())
     results = {}
-
+ 
     for i in range(len(model_names)):
         for j in range(i + 1, len(model_names)):
             m1, m2 = model_names[i], model_names[j]
             scores1 = all_scores[m1][metric]
             scores2 = all_scores[m2][metric]
-
+ 
             try:
                 stat, p_val = wilcoxon(scores1, scores2)
-                significant = " YES" if p_val < 0.05 else " NO"
+                significant = "YES" if p_val < 0.05 else "NO"
             except ValueError:
-                stat, p_val, significant = 0, 1.0, " Identical (cannot test)"
-
+                stat, p_val, significant = 0, 1.0, "Identical (cannot test)"
+ 
             key = f"{m1} vs {m2}"
-            results[key] = {"statistic": float(stat), "p_value": float(round(p_val, 6)),
-                            "significant": bool(p_val < 0.05)}
-            print(f"  {m1:30s} vs {m2:30s}  |  p={p_val:.4f}  |  Significant: {significant}")
-
+            results[key] = {
+                "statistic":   float(stat),
+                "p_value":     float(round(p_val, 6)),
+                "significant": bool(p_val < 0.05)
+            }
+            print(f"  {m1:30s} vs {m2:30s} | p={p_val:.4f} | Significant: {significant}")
+ 
     return results
 
 
 
 #  SAVE RESULTS
 
-def save_results(all_scores, stat_results):
+def save_results(all_scores, stat_results_f1, stat_results_mcc, stat_results_pr_auc):
     output = {}
+ 
     for model_name, scores in all_scores.items():
         output[model_name] = {
             metric: {
-                "mean": float(np.mean(vals)),
-                "std":  float(np.std(vals)),
+                "mean":     float(np.mean(vals)),
+                "std":      float(np.std(vals)),
                 "per_fold": [float(v) for v in vals]
             }
             for metric, vals in scores.items()
         }
-    output["statistical_tests"] = stat_results
-
+ 
+    # Backward-compatible key (F1) + all three labelled keys
+    output["statistical_tests"]        = {**stat_results_f1}   # backward compat
+    output["statistical_tests_f1"]     = stat_results_f1        # F1  — literature compat
+    output["statistical_tests_mcc"]    = stat_results_mcc       # MCC — primary metric
+    output["statistical_tests_pr_auc"] = stat_results_pr_auc    # PR-AUC — rare-event AUC
+ 
     with open("kfold_results.json", "w") as f:
         json.dump(output, f, indent=4)
-    print("\n K-Fold results saved to 'kfold_results.json'!")
+    print("\n  K-Fold results saved to 'kfold_results.json'!")
 
     # export a clean CSV summary
     rows = []
@@ -209,6 +221,8 @@ def save_results(all_scores, stat_results):
 if __name__ == "__main__":
     all_scores   = run_kfold_cv(n_splits=10)
     print_summary(all_scores)
-    stat_results = run_statistical_tests(all_scores, metric='f1')
-    save_results(all_scores, stat_results)
+    stat_results_f1 = run_statistical_tests(all_scores, metric='f1')
+    stat_results_mcc = run_statistical_tests(all_scores, metric='mcc')
+    stat_results_pr_auc = run_statistical_tests(all_scores, metric='pr_auc')
+    save_results(all_scores, stat_results_f1, stat_results_mcc, stat_results_pr_auc)
     print("\n K-Fold Cross Validation + Statistical Tests complete!")

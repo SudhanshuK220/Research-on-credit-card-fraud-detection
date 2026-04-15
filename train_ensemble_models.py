@@ -48,7 +48,7 @@ def train_random_forest(X_train, y_train, X_test, y_test):
     print(f"  PR-AUC  : {pr_auc:.4f}")
     print(f"  MCC     : {mcc:.4f}")
 
-    evaluate_model("Random Forest", y_test, y_pred, roc_auc)
+    evaluate_model("Random Forest", y_test, y_pred, roc_auc=roc_auc, y_scores=y_pred_proba)
     _append_extra_metrics("Random Forest", mcc, pr_auc)
     _plot_feature_importance(rf_model.feature_importances_,
                              X_train.columns.tolist(),
@@ -104,7 +104,7 @@ def train_xgboost(X_train, y_train, X_test, y_test):
     print(f"  PR-AUC  : {pr_auc:.4f}")
     print(f"  MCC     : {mcc:.4f}")
 
-    evaluate_model("XGBoost", y_test, y_pred, roc_auc)
+    evaluate_model("XGBoost", y_test, y_pred, roc_auc=roc_auc, y_scores=y_pred_proba)
     _append_extra_metrics("XGBoost", mcc, pr_auc)
     _plot_feature_importance(xgb_model.feature_importances_,
                              X_train.columns.tolist(),
@@ -170,15 +170,29 @@ def generate_full_comparison_table():
     for model_name, metrics in data.items():
         cr    = metrics.get('classification_report', {})
         fraud = cr.get('1', {})
+        
+        cm = metrics.get('confusion_matrix', [[0, 0], [0, 0]])
+        tn, fp = cm[0][0], cm[0][1]
+        fn, tp = cm[1][0], cm[1][1]
+        
+        fpr = fp / (fp + tn) if (fp + tn) > 0 else 0
+        fnr = fn / (fn + tp) if (fn + tp) > 0 else 0
+        
         rows.append({
             "Model":             model_name,
             "Accuracy":          round(cr.get('accuracy', 0), 4),
             "Precision (Fraud)": round(fraud.get('precision', 0), 4),
             "Recall (Fraud)":    round(fraud.get('recall', 0), 4),
             "F1-Score (Fraud)":  round(fraud.get('f1-score', 0), 4),
+            "FP":                fp,
+            "FN":                fn,
+            "FPR":               round(fpr, 4),
+            "FNR":               round(fnr, 4),
             "ROC-AUC":           round(metrics.get('roc_auc_score', 0), 4),
-            "PR-AUC":            round(metrics.get('pr_auc', 0), 4),
+            "PR-AUC":            round(metrics.get('pr_auc_score', metrics.get('pr_auc', 0)), 4),
             "MCC":               round(metrics.get('mcc', 0), 4),
+            "Opt. Threshold":    round(metrics.get('optimal_threshold', 0), 4),
+            "Expected Cost":     metrics.get('expected_cost', 0)
         })
 
     df = pd.DataFrame(rows)

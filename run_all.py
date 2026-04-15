@@ -44,8 +44,10 @@ def main():
     from kfold_cross_validation import run_kfold_cv, print_summary, run_statistical_tests, save_results
     all_scores   = run_kfold_cv(n_splits=10)
     print_summary(all_scores)
-    stat_results = run_statistical_tests(all_scores, metric='f1')
-    save_results(all_scores, stat_results)
+    stat_results_f1 = run_statistical_tests(all_scores, metric='f1')
+    stat_results_mcc = run_statistical_tests(all_scores, metric='mcc')
+    stat_results_pr_auc = run_statistical_tests(all_scores, metric='pr_auc')
+    save_results(all_scores, stat_results_f1, stat_results_mcc, stat_results_pr_auc)
 
     # SHAP ANALYSIS
     print("\n[STEP 4/5] Running SHAP Explainability Analysis (SVM/KNN may take around 5-10 min)...")

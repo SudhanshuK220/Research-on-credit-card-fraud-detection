@@ -4,7 +4,11 @@ from credit_card_preprocessing import preprocess_data, evaluate_model
 
 def train_decision_tree(X_train, y_train, X_test, y_test):
     print("\nTraining Decision Tree...")
-    dt_model = DecisionTreeClassifier(random_state=42, max_leaf_nodes=1500)
+    dt_model = DecisionTreeClassifier(
+    random_state=42,
+    max_leaf_nodes=1500,
+    class_weight='balanced'   #  Added
+)
     dt_model.fit(X_train, y_train)
 
     print("Evaluating Decision Tree on the testing set...")

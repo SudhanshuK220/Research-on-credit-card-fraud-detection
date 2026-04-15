@@ -84,6 +84,29 @@ def evaluate_model(model_name, y_true, y_pred, roc_auc=None, y_scores=None):
     if pr_auc is not None:
         results["pr_auc_score"] = pr_auc
 
+    if y_scores is not None:
+        precisions, recalls, thresholds = precision_recall_curve(y_true, y_scores)
+        f1_scores = (2 * precisions * recalls) / (precisions + recalls + 1e-10)
+        optimal_idx = np.argmax(f1_scores)
+        optimal_threshold = thresholds[optimal_idx] if optimal_idx < len(thresholds) else 0.5
+        optimal_f1 = f1_scores[optimal_idx]
+        
+        y_pred_opt = (y_scores >= optimal_threshold).astype(int)
+        cm_opt = confusion_matrix(y_true, y_pred_opt)
+        
+        tn_opt, fp_opt, fn_opt, tp_opt = cm_opt.ravel()
+        expected_cost = int((fn_opt * 10) + (fp_opt * 1))
+        
+        print(f"\n--- Optimal F1 Threshold Tuning ---")
+        print(f" Optimal F1 Threshold : {optimal_threshold:.4f}")
+        print(f" Optimal F1 Score     : {optimal_f1:.4f}")
+        print(f" Optimal Confusion Matrix:\n{cm_opt}")
+        print(f" Expected Cost (FN=10, FP=1): {expected_cost}")
+        
+        results["optimal_threshold"] = float(optimal_threshold)
+        results["optimal_f1"] = float(optimal_f1)
+        results["expected_cost"] = expected_cost
+
     file_name = "model_performance_results.json"
 
     if os.path.exists(file_name):

@@ -17,35 +17,35 @@
             ]
         },
         "roc_auc": {
-            "mean": 0.9792035955514464,
-            "std": 0.010108270993848706,
+            "mean": 0.9792010113865327,
+            "std": 0.010109557440796167,
             "per_fold": [
-                0.9787190058916082,
+                0.9787182881030858,
                 0.9940559932470456,
-                0.9778992913991708,
+                0.9778992913991709,
                 0.9889101673308602,
-                0.9743275757123333,
+                0.9743383425401675,
                 0.9920657029299004,
                 0.9592156448946572,
                 0.9702487727179085,
                 0.9824480177213863,
-                0.9741457836695931
+                0.9741098929811451
             ]
         },
         "pr_auc": {
-            "mean": 0.7265607932855516,
-            "std": 0.051458263031050576,
+            "mean": 0.7266070915381646,
+            "std": 0.05134889837992044,
             "per_fold": [
-                0.6904768030859272,
+                0.6904767214720453,
                 0.6949819565244798,
                 0.7412944934773291,
                 0.6914731333903776,
-                0.6217388687950867,
+                0.62226534541278,
                 0.8184089695484185,
                 0.7553308453280759,
                 0.7721074039654385,
                 0.7348805309660713,
-                0.744914927774311
+                0.7448515152966296
             ]
         },
         "mcc": {
@@ -165,83 +165,83 @@
     },
     "K-Nearest Neighbors": {
         "f1": {
-            "mean": 0.6631956514429305,
-            "std": 0.037066740656552515,
+            "mean": 0.6663272061755015,
+            "std": 0.035528017891926125,
             "per_fold": [
-                0.6299212598425197,
-                0.6942148760330579,
+                0.6451612903225806,
+                0.7,
                 0.7258064516129032,
-                0.6612903225806451,
+                0.6666666666666666,
                 0.625,
                 0.704,
-                0.6942148760330579,
+                0.6890756302521008,
                 0.6106870229007634,
-                0.6511627906976745,
-                0.6356589147286822
+                0.65625,
+                0.640625
             ]
         },
         "roc_auc": {
-            "mean": 0.9264184953524829,
-            "std": 0.015069065442198631,
+            "mean": 0.9264183891122582,
+            "std": 0.015068658083737183,
             "per_fold": [
-                0.9076920371412494,
-                0.928179874932528,
-                0.9588908157522996,
-                0.9180138360915554,
-                0.9178709961756228,
+                0.9076995739207332,
+                0.928174850412872,
+                0.9588936869063888,
+                0.9180141949858166,
+                0.917866330550228,
                 0.939674299180472,
-                0.9195997326861524,
+                0.9195990292286589,
                 0.9076938151012225,
-                0.938369945424619,
-                0.9281996010391074
+                0.9383656385420053,
+                0.9282024722941832
             ]
         },
         "pr_auc": {
-            "mean": 0.6072676161579481,
-            "std": 0.056119978854079954,
+            "mean": 0.6088054462340977,
+            "std": 0.0564500416388545,
             "per_fold": [
-                0.5382542523644109,
-                0.6003385422654911,
-                0.710715583653432,
-                0.6051293738622133,
-                0.5442031055258191,
+                0.542164997804026,
+                0.6027246392839141,
+                0.7151955245231401,
+                0.6060995010435206,
+                0.5443847082808658,
                 0.6795089123743314,
-                0.5953714322732858,
+                0.5976783773922756,
                 0.5356120968833287,
-                0.6194270834188936,
-                0.644115778958275
+                0.6196175448449183,
+                0.6450681599106559
             ]
         },
         "mcc": {
-            "mean": 0.6789226450892016,
-            "std": 0.035168736338991584,
+            "mean": 0.6813113062129121,
+            "std": 0.03373556840317979,
             "per_fold": [
-                0.6462858112636747,
-                0.7065221551061825,
+                0.6591353139268175,
+                0.7114969744332836,
                 0.7417938710149176,
-                0.6756670253444375,
+                0.680233683176236,
                 0.6421659584782505,
                 0.7179424373894748,
-                0.7043165276055123,
+                0.6974250814969913,
                 0.6302612185850363,
-                0.670139808532965,
-                0.6541316375715656
+                0.6743837049554132,
+                0.6582748186726998
             ]
         },
         "accuracy": {
-            "mean": 0.998507759485034,
-            "std": 0.00019629387201554744,
+            "mean": 0.9985323375203023,
+            "std": 0.00018961741808405042,
             "per_fold": [
-                0.9983497770443454,
-                0.9987008883115059,
+                0.9984551104244935,
+                0.998735999438222,
                 0.9988062216916541,
-                0.9985253326779256,
+                0.9985604438046417,
                 0.9983146659176293,
                 0.9987008883115059,
                 0.9987008883115059,
                 0.9982092696629213,
-                0.9984199438202247,
-                0.9983497191011236
+                0.9984550561797753,
+                0.9983848314606741
             ]
         }
     },
@@ -263,14 +263,14 @@
             ]
         },
         "roc_auc": {
-            "mean": 0.9794459624127855,
-            "std": 0.016732085381700238,
+            "mean": 0.9794459624127857,
+            "std": 0.01673208538170026,
             "per_fold": [
                 0.9774456490530935,
                 0.9964523302286588,
                 0.9607588603815189,
                 0.9908876747097264,
-                0.9949227228876918,
+                0.994922722887692,
                 0.9980148429531146,
                 0.9490007386303683,
                 0.9908665376037511,
@@ -280,13 +280,13 @@
         },
         "pr_auc": {
             "mean": 0.848414280705598,
-            "std": 0.04475730239476022,
+            "std": 0.04475730239476023,
             "per_fold": [
                 0.7984867563981222,
-                0.8772704378511427,
+                0.8772704378511428,
                 0.9143190683089883,
                 0.8787495007544116,
-                0.8418896143915489,
+                0.8418896143915487,
                 0.9047519367682747,
                 0.8506106846736085,
                 0.8214421170703325,
@@ -459,6 +459,162 @@
             "statistic": 1.0,
             "p_value": 0.003906,
             "significant": true
+        }
+    },
+    "statistical_tests_f1": {
+        "Support Vector Machine vs Decision Tree": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Support Vector Machine vs K-Nearest Neighbors": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Support Vector Machine vs Random Forest": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Support Vector Machine vs XGBoost": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Decision Tree vs K-Nearest Neighbors": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Decision Tree vs Random Forest": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Decision Tree vs XGBoost": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "K-Nearest Neighbors vs Random Forest": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "K-Nearest Neighbors vs XGBoost": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Random Forest vs XGBoost": {
+            "statistic": 1.0,
+            "p_value": 0.003906,
+            "significant": true
+        }
+    },
+    "statistical_tests_mcc": {
+        "Support Vector Machine vs Decision Tree": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Support Vector Machine vs K-Nearest Neighbors": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Support Vector Machine vs Random Forest": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Support Vector Machine vs XGBoost": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Decision Tree vs K-Nearest Neighbors": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Decision Tree vs Random Forest": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Decision Tree vs XGBoost": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "K-Nearest Neighbors vs Random Forest": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "K-Nearest Neighbors vs XGBoost": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Random Forest vs XGBoost": {
+            "statistic": 1.0,
+            "p_value": 0.003906,
+            "significant": true
+        }
+    },
+    "statistical_tests_pr_auc": {
+        "Support Vector Machine vs Decision Tree": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Support Vector Machine vs K-Nearest Neighbors": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Support Vector Machine vs Random Forest": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Support Vector Machine vs XGBoost": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Decision Tree vs K-Nearest Neighbors": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Decision Tree vs Random Forest": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Decision Tree vs XGBoost": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "K-Nearest Neighbors vs Random Forest": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "K-Nearest Neighbors vs XGBoost": {
+            "statistic": 0.0,
+            "p_value": 0.001953,
+            "significant": true
+        },
+        "Random Forest vs XGBoost": {
+            "statistic": 22.0,
+            "p_value": 0.625,
+            "significant": false
         }
     }
 }

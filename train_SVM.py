@@ -7,7 +7,12 @@ def train_svm(X_train, y_train, X_test, y_test):
     print("\nTraining SVM (LinearSVC)... This might take a minute or two.")
 
     # Wrap with CalibratedClassifierCV to get probability scores for PR-AUC
-    base_svm = LinearSVC(random_state=42, dual=False, max_iter=1500)
+    base_svm = LinearSVC(
+    random_state=42,
+    dual=False,
+    max_iter=1500,
+    class_weight='balanced'   
+)
     svm_model = CalibratedClassifierCV(base_svm, cv=3)
     svm_model.fit(X_train, y_train)
 

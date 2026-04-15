@@ -18,13 +18,23 @@ def generate_comparative_table():
     for model_name, metrics in data.items():
         class_1_metrics = metrics['classification_report']['1']
 
+        cm = metrics.get('confusion_matrix', [[0, 0], [0, 0]])
+        tn, fp = cm[0][0], cm[0][1]
+        fn, tp = cm[1][0], cm[1][1]
+        
+        fpr = fp / (fp + tn) if (fp + tn) > 0 else 0
+        fnr = fn / (fn + tp) if (fn + tp) > 0 else 0
+
         accuracy  = metrics['classification_report']['accuracy']
         precision = class_1_metrics['precision']
         recall    = class_1_metrics['recall']
         f1_score  = class_1_metrics['f1-score']
         roc_auc   = metrics.get('roc_auc_score', None)
-        mcc    = metrics.get('mcc', None)
-        pr_auc = metrics.get('pr_auc_score', metrics.get('pr_auc', None))
+        mcc       = metrics.get('mcc', None)
+        pr_auc    = metrics.get('pr_auc_score', metrics.get('pr_auc', None))
+        
+        opt_thresh = metrics.get('optimal_threshold', None)
+        expected_cost = metrics.get('expected_cost', None)
 
         table_data.append({
             "Models":             model_name,
@@ -32,9 +42,15 @@ def generate_comparative_table():
             "Precision (Fraud)":  precision,
             "Recall (Fraud)":     recall,
             "F1-Score (Fraud)":   f1_score,
+            "FP":                 fp,
+            "FN":                 fn,
+            "FPR":                fpr,
+            "FNR":                fnr,
             "ROC-AUC":            roc_auc,
             "PR-AUC":             pr_auc,   
-            "MCC":                mcc       
+            "MCC":                mcc,
+            "Opt. Threshold":     opt_thresh,
+            "Expected Cost":      expected_cost
         })
 
     df = pd.DataFrame(table_data)

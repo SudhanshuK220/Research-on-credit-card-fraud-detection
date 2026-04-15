@@ -188,3 +188,24 @@ python research_visuals.py
 | Wilcoxon Test | `kfold_cross_validation.py` | Proves significance of results |
 | SHAP Analysis | `shap_explainability.py` | Model explainability (IEEE requirement) |
 | Master Script | `run_all.py` | Run entire pipeline with one command |
+
+---
+
+## Discussion on Deployment & Real-World Impact
+
+From a deployment perspective, false positive rate (FPR) is operationally critical as it determines how many legitimate customers are incorrectly declined. Random Forest achieves an FPR of 0.0002, blocking only 18 legitimate transactions in a test set of 99,511 — far superior to XGBoost (FPR=0.0046, 460 false positives) and SVM (FPR=0.0231, 2,302 false positives). This finding reinforces Random Forest as the preferred deployment model even beyond its MCC advantage.
+
+### Table I (Single Split Results)
+
+| Model          | FP    | FN  | FPR    | FNR    |
+|----------------|-------|-----|--------|--------|
+| SVM            | 2302  | 21  | 0.0231 | 0.1221 |
+| KNN            | 3     | 1   | 0.0006 | 0.1250 |
+| Decision Tree  | 186   | 44  | 0.0019 | 0.2558 |
+| Random Forest  | 18    | 34  | 0.0002 | 0.1977 |  ← Best FPR
+| XGBoost        | 460   | 25  | 0.0046 | 0.1453 |
+
+**Key insight:** XGBoost catches 3 frauds wrong for every 1 it catches right (FP=460, TP=147)
+
+### Optimal F1 Threshold & Expected Cost
+In addition to native model performance, practical deployment requires adjusting the probability threshold for classification to maximize the F1 Score based on the Precision-Recall (PR) curve. Evaluating at the optimal threshold often provides a better balance between catching frauds and avoiding customer friction. A simple cost matrix was applied, where missing a fraud (FN cost) is penalized 10× more than a false alarm (FP cost = 1). The expected cost helps identify which model provides the most cost-effective solution for a financial institution.
