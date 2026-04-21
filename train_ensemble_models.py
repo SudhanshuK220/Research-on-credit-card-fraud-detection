@@ -27,8 +27,8 @@ def train_random_forest(X_train, y_train, X_test, y_test):
     print("-"*50)
 
     rf_model = RandomForestClassifier(
-        n_estimators=200,
-        max_depth=None,
+        n_estimators=100,
+        max_depth=20,
         min_samples_split=5,
         class_weight='balanced',
         random_state=42,
@@ -71,26 +71,17 @@ def train_xgboost(X_train, y_train, X_test, y_test):
     print(f"  scale_pos_weight = {scale_pos_weight:.2f}")
 
     xgb_model = xgb.XGBClassifier(
-        n_estimators=500,
+        n_estimators=200,
         max_depth=6,
-        learning_rate=0.05,
-        subsample=0.8,
-        colsample_bytree=0.8,
+        learning_rate=0.1,
         scale_pos_weight=scale_pos_weight,
         use_label_encoder=False,
-        eval_metric='aucpr',
-        early_stopping_rounds=30,
+        eval_metric='logloss',
         random_state=42,
         n_jobs=-1
     )
 
-    from sklearn.model_selection import train_test_split
-    X_tr, X_val, y_tr, y_val = train_test_split(
-        X_train, y_train, test_size=0.1, stratify=y_train, random_state=42
-    )
-
-    xgb_model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
-    print(f"  Best iteration: {xgb_model.best_iteration}")
+    xgb_model.fit(X_train, y_train)
 
     print("  Evaluating XGBoost on the testing set...")
     y_pred       = xgb_model.predict(X_test)

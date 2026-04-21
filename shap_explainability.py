@@ -1,16 +1,3 @@
-"""
-shap_explainability.py
-──────────────────────
-Generates SHAP-based explainability visualisations for all 5 models.
-Saves high-resolution plots suitable for an IEEE research paper.
-
-Plots generated:
-  1. shap_beeswarm_<model>.png     – feature importance + direction
-  2. shap_bar_<model>.png          – mean |SHAP| bar chart
-  3. shap_waterfall_<model>.png    – single-prediction explanation
-  4. shap_heatmap_all_models.png   – top-10 features across all models
-"""
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -36,10 +23,10 @@ def train_all_models(X_train, y_train):
     pos = (y_train == 1).sum()
 
     models = {
-        "Decision_Tree": DecisionTreeClassifier(random_state=42, max_leaf_nodes=1500),
-        "K_Nearest_Neighbors": KNeighborsClassifier(n_neighbors=3, n_jobs=-1),
+        "Decision_Tree": DecisionTreeClassifier(random_state=42, max_leaf_nodes=1500, class_weight='balanced'),
+        "K_Nearest_Neighbors": KNeighborsClassifier(n_neighbors=3, weights='distance', n_jobs=-1),
         "Support_Vector_Machine": CalibratedClassifierCV(
-            LinearSVC(random_state=42, dual=False, max_iter=1500), cv=3),
+            LinearSVC(random_state=42, dual=False, max_iter=1500,  class_weight='balanced'), cv=3),
         "Random_Forest": RandomForestClassifier(
             n_estimators=100, max_depth=20, random_state=42,
             n_jobs=-1, class_weight='balanced'),
@@ -201,13 +188,13 @@ def run_shap_analysis():
         # 1. Isolate KNN to use the minimum statistical sample (30 rows, 50 permutations)
         if model_name == "K_Nearest_Neighbors":
             print("  Applying extreme sample reduction for KNN distance calculations...")
-            X_current = X_sample.iloc[:30] 
-            shap_values = explainer.shap_values(X_current, nsamples=50)
+            X_current = X_sample.iloc[:100] 
+            shap_values = explainer.shap_values(X_current, nsamples=200)
         else:
             X_current = X_sample
             shap_values = explainer.shap_values(X_current)
 
-        # 2. Normalize the values using your existing function
+        # 2. Normalize the values using existing function
         shap_values = normalize_shap_values(shap_values, len(feature_names))
 
         # 3. Pass 'X_current' into the plot functions instead of 'X_sample'

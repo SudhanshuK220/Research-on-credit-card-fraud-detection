@@ -38,7 +38,7 @@ def get_models():
             LinearSVC(random_state=42,dual=False,max_iter=1500,class_weight='balanced'), cv=3),
         "Decision Tree":          DecisionTreeClassifier(random_state=42,max_leaf_nodes=1500,class_weight='balanced'),
         "K-Nearest Neighbors":    KNeighborsClassifier(n_neighbors=3,weights='distance',n_jobs=-1),
-        "Random Forest":          RandomForestClassifier(n_estimators=100, max_depth=20,
+        "Random Forest":          RandomForestClassifier(n_estimators=100, max_depth=20,min_samples_split=5,
                                                          random_state=42, n_jobs=-1,
                                                          class_weight='balanced'),
         "XGBoost": __import__('xgboost').XGBClassifier(
